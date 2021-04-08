@@ -6,7 +6,7 @@ import Jobview from './Jobview';
 
 const ALLJOBS = gql`
   query JobsListing {
-  jobs (input : { type : ""}){
+  jobs{
     id
     title
     slug
@@ -32,7 +32,6 @@ const ALLJOBS = gql`
 
 const Jobs = (props) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [searchType, setSearchType] = useState("");
     const [postsPerPage, setPostsPerPage] = useState(9);
     const { loading, error, data } = useQuery(ALLJOBS);
     if (loading) return <p>Loading...</p>;
@@ -48,19 +47,13 @@ const Jobs = (props) => {
       setCurrentPage(selectedPage);
     };
 
-    const searchTypeInput = event => {
-      setSearchType(event.target.value);
-    };
-
+    
 	return <div className="row">
 		      <h3 className="col-md-12 viewInfo">
 		      		Jobs
 		      		<a className="btn btn-info btn-sm pull-right" href="/addjob">Add New Job</a>
           </h3>
 
-          <div className="space" >
-              Search : <input type="text" value={searchType} name="search" onChange={searchTypeInput} />
-          </div>
               <Jobview posts={currentPosts} loading={loading} />
               <ReactPaginate
                     previousLabel={"prev"}
